@@ -93,7 +93,7 @@ function submitForm(event){
     setTimeout(function(){
       // Replace this with actual redirection logic
       window.location.href = './pages/dashboard/dashboard.html'; // Redirect to dashboard page
-    }, 2000);
+    }, 1000);
   }else{
     // Show error message if credentials are incorrect
     Toast.fire({
