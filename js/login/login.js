@@ -81,6 +81,9 @@ function submitForm(event){
 
   // Dummy authentication (replace with your actual authentication logic)
   if(formData.uniqueKey === '000000' && formData.username === 'admin' && formData.password === 'admin'){
+    // Set authentication flag in sessionStorage
+    sessionStorage.setItem('authenticated', true);
+    
     // Display loading spinner
     // Show loading spinner
     $('#buttonText').hide();
