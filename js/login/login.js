@@ -92,7 +92,7 @@ function submitForm(event){
     // Reset the form
     $('#loginForm')[0].reset();
 
-    // Simulate redirection to dashboard after 1 seconds
+    // Simulate redirection to dashboard after 1 second
     setTimeout(function(){
       // Replace this with actual redirection logic
       window.location.href = './pages/dashboard/dashboard.html'; // Redirect to dashboard page
