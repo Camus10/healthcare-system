@@ -83,7 +83,7 @@ function submitForm(event){
   if(formData.uniqueKey === '000000' && formData.username === 'admin' && formData.password === 'admin'){
     // Set authentication flag in sessionStorage
     sessionStorage.setItem('authenticated', true);
-    
+
     // Display loading spinner
     // Show loading spinner
     $('#buttonText').hide();
@@ -101,7 +101,7 @@ function submitForm(event){
     // Show error message if credentials are incorrect
     Toast.fire({
       icon: 'error',
-      title: 'Kredensial salah. Silakan coba lagi.'
+      title: 'Kredensial salah. <br> Silakan coba lagi.'
     });
   }
 }
