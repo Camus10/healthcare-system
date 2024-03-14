@@ -173,10 +173,17 @@
                         <label for="namaLayanan">Nama Layanan</label>
                         <input type="text" id="namaLayanan" name="namaLayanan" class="form-control" placeholder="Nama Layanan">
                       </div>
-                      <div class="form-group">
+                      <fieldset class="form-group">
                         <label for="jenisLayanan">Jenis Layanan</label>
-                        <input type="text" id="jenisLayanan" name="jenisLayanan" class="form-control" placeholder="Jenis Layanan">
-                      </div>
+                        <select class="form-select" id="basicSelect">
+                          <option>Rawat Jalan</option>
+                          <option>Rawat Inap</option>
+                          <option>Unit Gawat Darurat</option>
+                          <option>Kamar Operasi</option>
+                          <option>Kamar Bersalin</option>
+                          <option>Penunjang</option>
+                        </select>
+                      </fieldset>
                       <div class="form-check form-switch">
                         <input type="checkbox" id="medicalCheckUp" name="medicalCheckUp" class="form-check-input">
                         <label for="medicalCheckUp" class="form-check-label">Melayani Medical Check Up?</label>
