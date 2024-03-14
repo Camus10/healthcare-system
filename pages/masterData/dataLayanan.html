@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="../../assets/images/IconRosellaCare.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../../assets/compiled/css/app.css"/>
     <link rel="stylesheet" href="../../assets/compiled/css/app-dark.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="../../assets/compiled/css/table-datatable-jquery.css"/>
   </head>
 
   <body>
@@ -43,7 +45,7 @@
           <div class="sidebar-menu">
             <ul class="menu">
               <!-- Dashboard -->
-              <li class="sidebar-item active">
+              <li class="sidebar-item">
                 <a href="../dashboard/dashboard.html" class="sidebar-link">
                   <i class="bi bi-grid-fill"></i>
                   <span>Dashboard</span>
@@ -51,13 +53,13 @@
               </li>
               <!-- End of dashboard -->
               <!-- Data master -->
-              <li class="sidebar-item has-sub">
+              <li class="sidebar-item active has-sub">
                 <a href="#" class="sidebar-link">
                   <i class="bi bi-database"></i>
                   <span>Master Data</span>
                 </a>
-                <ul class="submenu">
-                  <li class="submenu-item">
+                <ul class="submenu active submenu-open">
+                  <li class="submenu-item active">
                     <a href="../masterData/dataLayanan.html" class="submenu-link">Data Layanan</a>
                   </li>
                   <li class="submenu-item">
@@ -137,13 +139,65 @@
           </nav>
         </header>
         <div id="main-content">
-          <!-- Current dashboard is empty for further development -->
+          <div class="page-heading">
+            <div class="page-title">
+              <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                  <h3>Data Layanan</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                  <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        Master Data
+                      </li>
+                      <li class="breadcrumb-item active" aria-current="page">
+                        Data Layanan
+                      </li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
+            <section class="section">
+              <div class="card">
+                <div class="card-header">
+                  <div class="buttons">
+                    <a href="./updateDataLayanan.html" class="btn btn-primary rounded-pill">Tambah Data</a>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table" id="table1">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>Kode Layanan</th>
+                          <th>Nama Layanan</th>
+                          <th>Jenis Layanan</th>
+                          <th>Medical Check Up</th>
+                          <th>Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tableBody">
+                        <!-- Data will be inserted here -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
     </div>
     
+    <script src="../../js/masterData/dataLayanan.js"></script>
     <script src="../../assets/static/js/components/dark.js"></script>
     <script src="../../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../../assets/compiled/js/app.js"></script>
+    <script src="../../assets/extensions/jquery/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+    <script src="../../assets/static/js/pages/datatables.js"></script>
   </body>
 </html>
