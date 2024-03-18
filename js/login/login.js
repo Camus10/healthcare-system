@@ -11,7 +11,7 @@ function submitForm(event){
 
   // Collect form data
   const formData = {
-    uniqueKey: $('#uniqueKey').val(),
+    // uniqueKey: $('#uniqueKey').val(),
     username: $('#username').val(),
     password: $('#password').val()
   };
@@ -28,80 +28,52 @@ function submitForm(event){
     }
   }
 
-  /*
-  // Use JSONPlaceholder to simulate authentication
-  fetch('https://jsonplaceholder.typicode.com/users?username=' + formData.username)
-    .then(response => response.json())
-    .then(users => {
-      // Check if user with the provided username exists
-      if (users.length === 0) {
-        // Show error message if user does not exist
-        Toast.fire({
-          icon: 'error',
-          title: 'Pengguna tidak ditemukan. Silakan coba lagi.'
-        });
-        return;
-      }
+  // Perform authentication with backend API
+  fetch(`${API_BASE_URL}/auth/sign-in`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    if(data.success){
+      // Store the access token in sessionStorage
+      sessionStorage.setItem('accessToken', data.data.accessToken);
 
-      // Check if the password matches the user's password (assuming password is stored in plain text for simplicity)
-      const user = users[0];
-      if (formData.password !== 'admin') { // Replace 'admin' with user.password once you have real user data
-        // Show error message if password is incorrect
-        Toast.fire({
-          icon: 'error',
-          title: 'Password salah. Silakan coba lagi.'
-        });
-        return;
-      }
-
-      // Dummy success message
-      Swal.fire({
-        icon: 'success',
-        title: 'Login berhasil!',
-        text: 'Anda akan dialihkan ke halaman dashboard...',
-        timer: 3000, // Autoclose toast after 3 seconds
-        showConfirmButton: false
-      });
-
-      // Simulate redirection to dashboard after 3 seconds
-      setTimeout(function() {
+      // Display loading spinner
+      // Show loading spinner
+      $('#buttonText').hide();
+      $('#loadingSpinner').show();
+      
+      // Reset the form
+      $('#loginForm')[0].reset();
+      
+      // Simulate redirection to dashboard after 1 second
+      setTimeout(function(){
         // Replace this with actual redirection logic
-        window.location.href = 'dashboard.html'; // Redirect to dashboard page
-      }, 3000);
-    })
-    .catch(error => {
-      // Show error message if there is an error with the fetch request
+        window.location.href = './pages/dashboard/dashboard.html'; // Redirect to dashboard page
+      }, 1000);
+    }else{
+      // Show error message if credentials are incorrect
       Toast.fire({
         icon: 'error',
-        title: 'Terjadi kesalahan saat memeriksa pengguna. Silakan coba lagi.'
+        title: 'Kredensial salah. <br> Silakan coba lagi.'
       });
-      console.error('Error:', error);
-    });
-  */
-
-  // Dummy authentication (replace with your actual authentication logic)
-  if(formData.uniqueKey === '000000' && formData.username === 'admin' && formData.password === 'admin'){
-    // Set authentication flag in sessionStorage
-    sessionStorage.setItem('authenticated', true);
-
-    // Display loading spinner
-    // Show loading spinner
-    $('#buttonText').hide();
-    $('#loadingSpinner').show();
-
-    // Reset the form
-    $('#loginForm')[0].reset();
-
-    // Simulate redirection to dashboard after 1 second
-    setTimeout(function(){
-      // Replace this with actual redirection logic
-      window.location.href = './pages/dashboard/dashboard.html'; // Redirect to dashboard page
-    }, 1000);
-  }else{
-    // Show error message if credentials are incorrect
+    }
+  })
+  .catch(error => {
+    // Show error message if there is an error with the fetch request
     Toast.fire({
       icon: 'error',
-      title: 'Kredensial salah. <br> Silakan coba lagi.'
+      title: 'Terjadi kesalahan saat memeriksa pengguna. Silakan coba lagi.'
     });
-  }
+    console.error('Error:', error);
+  });
 }

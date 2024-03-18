@@ -1,7 +1,7 @@
 // Check if user is authenticated
 function checkAuthentication(){
   // Dummy authentication logic (replace with your actual authentication logic)
-  const isAuthenticated = sessionStorage.getItem('authenticated');
+  const isAuthenticated = sessionStorage.getItem('accessToken');
   
   if(!isAuthenticated){
     // Hide the body content
@@ -9,7 +9,7 @@ function checkAuthentication(){
     // Redirect user to the login page after a short delay
     setTimeout(function(){
       window.location.href = '../../login.html';
-  }, 100);
+    }, 100);
   }
 }
 
