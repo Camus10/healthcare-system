@@ -1,4 +1,4 @@
-function validateUniqueKey(input) {
+function validateUniqueKey(input){
   // Regex for removing characters that are not alphanumeric
   let uniqueKey = input.value.replace(/[^0-9a-zA-Z]/g, '');
   
