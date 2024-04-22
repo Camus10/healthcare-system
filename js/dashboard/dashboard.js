@@ -7,9 +7,9 @@ $(document).ready(function(){
     url: `${API_BASE_URL}/auth`,
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer ' + accessToken // Include access token in request headers
+      'Authorization': 'Bearer ' + accessToken
     },
-    success: function(response) {
+    success: function(response){
       // Populate dropdown with user data
       $('#userName').text(response.data.username);
       // $('#userRole').text(response.data.role);

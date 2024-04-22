@@ -1,107 +1,150 @@
-// Dummy data
-const dummyData = [
-  {
-    kode_layanan: "12345",
-    nama_layanan: "Layanan A",
-    jenis_layanan: "Jenis X",
-    medical_checkup: "Melayani"
-  },
-  {
-    kode_layanan: "67890",
-    nama_layanan: "Layanan B",
-    jenis_layanan: "Jenis Y",
-    medical_checkup: "Melayani"
-  },
-  {
-    kode_layanan: "54321",
-    nama_layanan: "Layanan C",
-    jenis_layanan: "Jenis Z",
-    medical_checkup: "Tidak"
-  },
-  {
-    kode_layanan: "98765",
-    nama_layanan: "Layanan D",
-    jenis_layanan: "Jenis X",
-    medical_checkup: "Tidak"
-  },
-  {
-    kode_layanan: "13579",
-    nama_layanan: "Layanan E",
-    jenis_layanan: "Jenis Y",
-    medical_checkup: "Melayani"
-  }
-];
+$(document).ready(function(){
+  refreshTable();
+});
 
-// Populate table with dummy data
-populateTable(dummyData);
+function refreshTable(){
+  // Destroy existing DataTable instance
+  $('#table1').DataTable().destroy();
 
-function populateTable(data){
-  // Get the table body element
-  const tableBody = document.getElementById('tableBody');
+  // Retrieve access token from sessionStorage
+  var accessToken = sessionStorage.getItem('accessToken');
 
-  // Clear any existing rows
-  tableBody.innerHTML = '';
+  $.ajax({
+    url: `${API_BASE_URL}/auth`,
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + accessToken
+    },
+    success: function(response){
+      // Extract clinicId from the response
+      // response.data.clinic
+      var clinicId = "ec5c1779-5194-471f-a902-2f451498b7ec"; // bypass
+      
+      // Make a new AJAX request using the extracted clinicId
+      $.ajax({
+        url: `${API_BASE_URL}/service-requests`,
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
+        },
+        data: {
+          isDeleted: false,
+          page: 1,
+          orderBy: 'service_request.updatedAt',
+          order: 'DESC',
+          clinicIds: [clinicId] // Convert clinicId to array as required by the API
+        },
+        success: function(response){
+          // Extract items from the response
+          var items = response.data.items;
 
-  // Iterate through the data and create table rows
-  data.forEach((item, index) => {
-    // Create a new table row
-    const row = document.createElement('tr');
+          // Initialise DataTable with items
+          $('#table1').DataTable({
+            data: items,
+            columns: [
+              { data: 'code' },
+              { data: 'name' },
+              { 
+                data: 'type',
+                render: function(data){
+                  switch(data){
+                    case 'in-patient':
+                      return 'Rawat Inap';
+                    case 'out-patient':
+                      return 'Rawat Jalan';
+                    case 'unitGawatDarurat':
+                      return 'Unit Gawat Darurat';
+                    case 'kamarOperasi':
+                      return 'Kamar Operasi';
+                    case 'kamarBersalin':
+                      return 'Kamar Bersalin';
+                    case 'penunjang':
+                      return 'Penunjang';
+                    default:
+                      return data; // Return the original value if not matched
+                  }
+                }
+              },
+              { 
+                data: 'isMedicalCheckUpIncluded',
+                render: function(data) {
+                  return data ? 'Melayani' : 'Tidak';
+                }
+              },
+              { 
+                data: null,
+                render: function(data, type, row){
+                  return `<center>` +
+                         `<button class="btn btn-sm btn-primary btn-edit" onclick="editData({ 'id': '${row.id}' })">Edit</button>` +
+                         `&nbsp;` +
+                         `<button class="btn btn-sm btn-danger btn-delete" onclick="deleteData({ 'id': '${row.id}' })">Delete</button>` +
+                         `</center>`;
 
-    // Insert data into the row
-    row.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${item.kode_layanan}</td>
-      <td>${item.nama_layanan}</td>
-      <td>${item.jenis_layanan}</td>
-      <td>${item.medical_checkup}</td>
-      <td>
-        <a href="#" class="btn icon btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
-        <a href="#" class="btn icon btn-danger btn-sm"><i class="bi bi-x"></i> Hapus</a>
-      </td>
-    `;
-
-    // Append the row to the table body
-    tableBody.appendChild(row);
+                }
+              }
+            ],
+            order: []
+          });
+        },
+        error: function(xhr, status, error){
+          console.error('Error fetching data:', error);
+        }
+      });
+    },
+    error: function(xhr, status, error){
+      console.error('Error fetching clinic data:', error);
+    }
   });
 }
 
-
-/*
-// Fetch data from API and populate the table
-fetchDataAndPopulateTable();
-
-function fetchDataAndPopulateTable(){
-  // Fetch data from API
-  fetch('https://api.example.com/your-endpoint')
-    .then(response => response.json())
-    .then(data => {
-      // Get the table body element
-      const tableBody = document.getElementById('tableBody');
-
-      // Clear any existing rows
-      tableBody.innerHTML = '';
-
-      // Iterate through the data and create table rows
-      data.forEach((item, index) => {
-        // Create a new table row
-        const row = document.createElement('tr');
-
-        // Insert data into the row
-        row.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${item.kode_layanan}</td>
-          <td>${item.nama_layanan}</td>
-          <td>${item.jenis_layanan}</td>
-          <td>
-            <a href="#" class="btn icon btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
-            <a href="#" class="btn icon btn-danger btn-sm"><i class="bi bi-x"></i> Hapus</a>
-          </td>
-        `;
-
-        // Append the row to the table body
-        tableBody.appendChild(row);
-      });
-    })
-    .catch(error => console.error('Error fetching data:', error));
+function editData(data){
+  // Navigate to updateDataLayanan.html with serviceId as a query parameter
+  window.location.href = `updateDataLayanan.html?serviceId=${data.id}`;
 }
-*/
+function deleteData(data){
+  // Confirm with the user before proceeding with deletion
+  Swal.fire({
+    icon: 'warning',
+    title: 'Konfirmasi penghapusan',
+    text: 'Data layanan ini akan dihapus dan tidak bisa dikembalikan',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Hapus',
+    cancelButtonText: 'Batalkan'
+  }).then((result) => { 
+    if(result.isConfirmed){
+      // Retrieve access token from sessionStorage
+      let accessToken = sessionStorage.getItem('accessToken');
+      // Log the URL and request body before making the AJAX request
+      $.ajax({
+        url: `${API_BASE_URL}/service-requests/${data.id}`,
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
+        },
+        data: {"id": data.id},
+        success: function(response){
+          // Handle success response
+          Swal.fire({
+            icon: 'success',
+            title: 'Penghapusan Berhasil',
+            text: 'Data layanan berhasil dihapus'
+          });
+
+          refreshTable();
+        },
+        error: function(xhr, status, error){
+          // Handle error response
+          console.error('Error deleting item:', error);
+          // Display an error message or handle the error as needed
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Gagal menghapus data layanan'
+          });
+        }
+      });
+    }
+  });
+}

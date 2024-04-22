@@ -8,11 +8,14 @@
     <link rel="shortcut icon" href="../../assets/images/IconRosellaCare.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../../assets/compiled/css/app.css"/>
     <link rel="stylesheet" href="../../assets/compiled/css/app-dark.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/sweetalert2/sweetalert2.min.css"/>
   </head>
 
   <body>
     <script src="../../assets/static/js/initTheme.js"></script>
     <script src="../../assets/static/js/auth.js"></script>
+    <script src="../../assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+    <script src="../../assets/static/js/pages/sweetalert2.js"></script>
 
     <div id="app">
       <div id="sidebar">
@@ -165,6 +168,8 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6 mb-3">
+                      <input type="hidden" id="clinicId" name="clinicId">
+                      <input type="hidden" id="serviceId" name="serviceId">
                       <div class="form-group">
                         <label for="kodeLayanan">Kode Layanan</label>
                         <input type="text" id="kodeLayanan" name="kodeLayanan" class="form-control" placeholder="Kode Layanan">
@@ -175,15 +180,15 @@
                       </div>
                       <fieldset class="form-group">
                         <label for="jenisLayanan">Jenis Layanan</label>
-                        <select class="form-select" id="basicSelect">
-                          <option>Rawat Jalan</option>
-                          <option>Rawat Inap</option>
-                          <option>Unit Gawat Darurat</option>
-                          <option>Kamar Operasi</option>
-                          <option>Kamar Bersalin</option>
-                          <option>Penunjang</option>
+                        <select class="form-select" id="pilihJenisLayanan" name="pilihJenisLayanan">
+                          <option id="out-patient">Rawat Jalan</option>
+                          <option id="in-patient">Rawat Inap</option>
+                          <option id="unitGawatDarurat">Unit Gawat Darurat</option>
+                          <option id="kamarOperasi">Kamar Operasi</option>
+                          <option id="kamarBersalin">Kamar Bersalin</option>
+                          <option id="penunjang">Penunjang</option>
                         </select>
-                      </fieldset>
+                      </fieldset>                    
                       <div class="form-check form-switch">
                         <input type="checkbox" id="medicalCheckUp" name="medicalCheckUp" class="form-check-input">
                         <label for="medicalCheckUp" class="form-check-label">Melayani Medical Check Up?</label>
@@ -202,7 +207,7 @@
                       </div>
                     </div>
                     <div class="buttons">
-                      <a href="#" class="btn icon icon-left btn-primary">Simpan</a>
+                      <button type="submit" id="submitForm" name="submitForm" class="btn icon icon-left btn-primary">Simpan</button>
                       <a href="./dataLayanan.html" class="btn icon icon-left btn-secondary">Kembali</a>
                     </div>
                   </div>
@@ -214,8 +219,10 @@
       </div>
     </div>
     
+    <script src="../../assets/extensions/jquery/jquery.min.js"></script>
+    <script src="../../config.js"></script>
+    <script src="../../js/masterData/updateDataLayanan.js"></script>
     <script src="../../assets/static/js/components/dark.js"></script>
-    <script src="../../assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="../../assets/compiled/js/app.js"></script>
   </body>
 </html>
