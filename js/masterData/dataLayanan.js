@@ -90,6 +90,7 @@ function refreshTable(){
               },
               { 
                 data: 'isMedicalCheckUpIncluded',
+                className: 'text-center',
                 render: function(data){
                   return data ? 'Melayani' : 'Tidak';
                 }
