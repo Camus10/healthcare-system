@@ -66,7 +66,7 @@
                     <a href="../masterData/dataLayanan.html" class="submenu-link">Data Layanan</a>
                   </li>
                   <li class="submenu-item">
-                    <a href="#" class="submenu-link">Data Kamar</a>
+                    <a href="../masterData/dataKamar.html" class="submenu-link">Data Kamar</a>
                   </li>
                   <li class="submenu-item">
                     <a href="#" class="submenu-link">Data Bed</a>
@@ -96,7 +96,7 @@
           <nav class="navbar navbar-expand navbar-light navbar-top">
             <div class="container-fluid">
               <!-- Button hide and show sidebar menu -->
-              <a href="#" class="burger-btn d-block">
+              <a href="#" class="burger-btn d-block" onclick="refreshTable()">
                 <i class="bi bi-justify fs-3"></i>
               </a>
 
@@ -111,19 +111,21 @@
                   <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-menu d-flex">
                       <div class="user-name text-end me-3">
-                        <h6 class="mb-0 text-gray-600">Camus</h6>
+                        <h6 class="mb-0 text-gray-600" id="userName"></h6>
+                        <!-- <p class="mb-0 text-sm text-gray-600" id="userRole"></p> -->
                         <p class="mb-0 text-sm text-gray-600">Administrator</p>
                       </div>
                       <div class="user-img d-flex align-items-center">
                         <div class="avatar avatar-md">
-                          <img src="../../assets/compiled/jpg/2.jpg" />
+                          <!-- <img id="userAvatar" src="" alt="User Avatar"/> -->
+                          <img src="../../assets/compiled/jpg/2.jpg"/>
                         </div>
                       </div>
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="min-width: 11rem">
                     <li>
-                      <h6 class="dropdown-header">Hello, Camus!</h6>
+                      <h6 class="dropdown-header" id="greetingHeader"></h6>
                     </li>
                     <li>
                       <a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My Profile</a>
@@ -132,7 +134,9 @@
                       <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#"><i class="icon-mid bi bi-box-arrow-left me-2"></i>Logout</a>
+                      <a class="dropdown-item" href="#" id="logoutButton">
+                        <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout
+                      </a>
                     </li>
                   </ul>
                 </div>
