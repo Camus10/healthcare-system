@@ -1,6 +1,6 @@
 $(document).ready(function(){
   // Retrieve access token from sessionStorage
-  var accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem('accessToken');
   
   // Make an AJAX request to fetch user data
   $.ajax({
@@ -30,7 +30,7 @@ function refreshTable(){
   $('#table1').DataTable().destroy();
 
   // Retrieve access token from sessionStorage
-  var accessToken = sessionStorage.getItem('accessToken');
+  let accessToken = sessionStorage.getItem('accessToken');
 
   $.ajax({
     url: `${API_BASE_URL}/auth`,
