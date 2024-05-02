@@ -21,20 +21,7 @@ $(document).ready(function(){
       console.error('Error fetching user data:', error);
     }
   });
-
-  // Initialise AutoNumeric on the input field
-  // new AutoNumeric('#chargeHarian', {
-  //   currencySymbol: 'Rp ',
-  //   decimalCharacter: ',',
-  //   digitGroupSeparator: '.',
-  //   decimalPlaces: 0,
-  //   minimumValue: '0'
-  // });
-  // let chargeHarianValue = AutoNumeric.getNumber('#chargeHarian'); post
-
-
-// kontrol input
-// post and put
+  
   // Retrieve serviceId from URL query parameters
   const urlParams = new URLSearchParams(window.location.search);
   const serviceId = urlParams.get('serviceId');
@@ -169,9 +156,6 @@ $(document).ready(function(){
   // Function to handle form submission
   $('#submitForm').click(function(event){
     event.preventDefault(); // Prevent the default form submission
-
-    // Initialise AutoNumeric on the input field
-  // new AutoNumeric('#chargeHarian 
 
     // Get form data
     let formData = {
