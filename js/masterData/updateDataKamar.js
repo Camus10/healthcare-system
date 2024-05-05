@@ -17,7 +17,7 @@ $(document).ready(function(){
       // Greeting message
       $('#greetingHeader').text('Hello, ' + response.data.username + '!');
     },
-    error: function(xhr, status, error) {
+    error: function(xhr, status, error){
       console.error('Error fetching user data:', error);
     }
   });
