@@ -137,6 +137,15 @@ $(document).ready(function(){
       
         // Clear existing options
         $selectElement.empty();
+
+        // Add a placeholder option
+        $selectElement.append($('<option>', {
+          value: '',
+          text: 'Pilih Nama Layanan',
+          selected: true,
+          disabled: true,
+          hidden: true
+        }));
       
         // Iterate over items and append options
         $.each(items, function(index, item){
@@ -168,7 +177,7 @@ $(document).ready(function(){
     };
 
     // Validate form data
-    if(formData.code == '' || formData.name == '' || formData.dailyCharge == '' || formData.serviceRequestId == ''){
+    if(formData.code === '' || formData.name === '' || formData.dailyCharge === '' || formData.serviceRequestId === ''){
       Toast.fire({
         icon: 'warning',
         title: 'Isi semua data terlebih dahulu.'
