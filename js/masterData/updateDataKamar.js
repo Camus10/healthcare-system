@@ -140,7 +140,7 @@ $(document).ready(function(){
 
         // Add a placeholder option
         $selectElement.append($('<option>', {
-          value: '',
+          value: undefined,
           text: 'Pilih Nama Layanan',
           selected: true,
           disabled: true,
@@ -177,7 +177,7 @@ $(document).ready(function(){
     };
 
     // Validate form data
-    if(formData.code === '' || formData.name === '' || formData.dailyCharge === '' || formData.serviceRequestId === ''){
+    if(formData.code === '' || formData.name === '' || formData.dailyCharge === '' || formData.serviceRequestId === undefined){
       Toast.fire({
         icon: 'warning',
         title: 'Isi semua data terlebih dahulu.'
