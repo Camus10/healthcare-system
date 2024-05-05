@@ -77,6 +77,30 @@ async function refreshTable(){
       item.serviceName = serviceRequestsResponses[index].data.name;
     });
 
+    // Fetch beds data for each ward in parallel
+    const bedRequestsPromises = items.map(item =>
+      $.ajax({
+        url: `${API_BASE_URL}/beds`,
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
+        },
+        data: {
+          isDeleted: false,
+          wardIds: item.id // Filter beds by wardId
+        }
+      })
+    );
+
+    // Wait for all bed data to be fetched
+    const bedResponses = await Promise.all(bedRequestsPromises);
+
+    // Map the fetched bed data count to the corresponding item
+    items.forEach((item, index) => {
+      // Assuming the beds count is obtained from the length of the items array in the bed response
+      item.bedsCount = bedResponses[index].data.items.length;
+    });
+
     // Initialise DataTable with items
     $('#table1').DataTable({
       data: items,
@@ -99,7 +123,7 @@ async function refreshTable(){
           }
         },
         { 
-          data: null,
+          data: 'bedsCount', // Display the count of beds for the ward
           className: 'text-center'
         },
         {
