@@ -216,7 +216,7 @@ $(document).ready(function(){
           $('#kodeKamar').val('');
           $('#namaKamar').val('');
           $('#chargeHarian').val('');
-          $('#pilihNamaLayanan').val('');
+          $('#pilihNamaLayanan').val('').find('option:eq(0)').prop('selected', true);
           $('#available').prop('checked', false);
         }else if(httpMethod === 'PUT'){
           // Populate form fields with existing data Kamar details
