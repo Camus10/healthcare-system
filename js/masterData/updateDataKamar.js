@@ -224,7 +224,7 @@ $(document).ready(function(){
           $('#kodeKamar').val(formData.code);
           $('#namaKamar').val(formData.name);
           $('#chargeHarian').val(formData.dailyCharge);
-          $('#chargeHarian').val(AutoNumeric.getNumber('#chargeHarian'),);
+          $('#chargeHarian').val(AutoNumeric.getNumber('#chargeHarian'));
           $('#available').prop('checked', formData.isAvailable);
         }
       },      
