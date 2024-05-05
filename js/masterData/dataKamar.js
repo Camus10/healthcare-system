@@ -86,6 +86,7 @@ async function refreshTable(){
           'Authorization': 'Bearer ' + accessToken
         },
         data: {
+          isActive: true,
           isDeleted: false,
           wardIds: item.id // Filter beds by wardId
         }
