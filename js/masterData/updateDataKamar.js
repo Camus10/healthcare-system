@@ -22,15 +22,15 @@ $(document).ready(function(){
     }
   });
   
-  // Retrieve serviceId from URL query parameters
+  // Retrieve wardId from URL query parameters
   const urlParams = new URLSearchParams(window.location.search);
-  const serviceId = urlParams.get('serviceId');
+  const wardId = urlParams.get('wardId');
 
   // Function to fetch data kamar details for editing
-  function fetchDataKamarDetails(serviceId){
+  function fetchDataKamarDetails(wardId){
     // Make AJAX request to fetch data kamar details
     $.ajax({
-      url: `${API_BASE_URL}/wards/${serviceId}`,
+      url: `${API_BASE_URL}/wards/${wardId}`,
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + accessToken
@@ -52,7 +52,7 @@ $(document).ready(function(){
         autoNumericInstance.set(response.data.dailyCharge);
 
         // Retrieve the serviceRequest value from the response
-        let serviceId = response.data.serviceRequestId;
+        let serviceRequestId = response.data.serviceRequestId;
 
         // Make AJAX request to fetch data from `${API_BASE_URL}/service-requests`
         $.ajax({
@@ -68,10 +68,10 @@ $(document).ready(function(){
           },
           success: function(response){
             // Extract items from the response
-            var items = response.data.items;
+            let items = response.data.items;
           
             // Get the select element
-            var $selectElement = $('#pilihNamaLayanan');
+            let $selectElement = $('#pilihNamaLayanan');
           
             // Clear existing options
             $selectElement.empty();
@@ -85,9 +85,9 @@ $(document).ready(function(){
               }));
             });
           
-            // Once options are appended, if serviceId is available, set the selected value
-            if(serviceId){
-              $selectElement.val(serviceId);
+            // Once options are appended, if serviceRequestId is available, set the selected value
+            if(serviceRequestId){
+              $selectElement.val(serviceRequestId);
             }
           },
           error: function(xhr, status, error){
@@ -96,7 +96,7 @@ $(document).ready(function(){
         });
 
         $('#available').prop('checked', response.data.isActive);
-        $('#serviceId').val(response.data.id);
+        $('#wardId').val(response.data.id);
       },
       error: function(xhr, status, error){
         console.error('Error fetching data layanan details:', error);
@@ -104,9 +104,9 @@ $(document).ready(function(){
       }
     });
   }
-  // If serviceId is provided, fetch data kamar details for editing
-  if(serviceId){
-    fetchDataKamarDetails(serviceId);
+  // If wardId is provided, fetch data kamar details for editing
+  if(wardId){
+    fetchDataKamarDetails(wardId);
   }else{
     new AutoNumeric('#chargeHarian', {
       currencySymbol: 'Rp ',
@@ -130,10 +130,10 @@ $(document).ready(function(){
       },
       success: function(response){
         // Extract items from the response
-        var items = response.data.items;
+        let items = response.data.items;
       
         // Get the select element
-        var $selectElement = $('#pilihNamaLayanan');
+        let $selectElement = $('#pilihNamaLayanan');
       
         // Clear existing options
         $selectElement.empty();
@@ -159,7 +159,7 @@ $(document).ready(function(){
 
     // Get form data
     let formData = {
-      id: $('#serviceId').val(),
+      id: $('#wardId').val(),
       code: $('#kodeKamar').val(),
       name: $('#namaKamar').val(),
       isActive: $('#available').is(':checked'),
@@ -177,10 +177,10 @@ $(document).ready(function(){
     }
 
     // Determine the appropriate API endpoint based on whether it's for adding or editing
-    let apiUrl = serviceId ? `${API_BASE_URL}/wards/${serviceId}` : `${API_BASE_URL}/wards`;
+    let apiUrl = wardId ? `${API_BASE_URL}/wards/${wardId}` : `${API_BASE_URL}/wards`;
 
     // Determine the HTTP method for the request
-    let httpMethod = serviceId ? 'PUT' : 'POST';
+    let httpMethod = wardId ? 'PUT' : 'POST';
 
     // Make AJAX request
     $.ajax({
@@ -193,7 +193,7 @@ $(document).ready(function(){
       data: JSON.stringify(formData),
       success: function(response){
         // Show success message
-        let message = serviceId ? 'Data kamar berhasil diperbarui' : 'Data kamar berhasil ditambahkan';
+        let message = wardId ? 'Data kamar berhasil diperbarui' : 'Data kamar berhasil ditambahkan';
         Swal.fire({
           title: message,
           html:
@@ -211,7 +211,7 @@ $(document).ready(function(){
           $('#available').prop('checked', false);
         }else if(httpMethod === 'PUT'){
           // Populate form fields with existing data Kamar details
-          $('#serviceId').val(serviceId);
+          $('#wardId').val(wardId);
           $('#kodeKamar').val(formData.code);
           $('#namaKamar').val(formData.name);
           $('#chargeHarian').val(formData.dailyCharge);

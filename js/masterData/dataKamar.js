@@ -145,8 +145,8 @@ async function refreshTable(){
 }
 
 function editData(data){
-  // Navigate to updateDataKamar.html with serviceId as a query parameter
-  window.location.href = `updateDataKamar.html?serviceId=${data.id}`;
+  // Navigate to updateDataKamar.html with wardId as a query parameter
+  window.location.href = `updateDataKamar.html?wardId=${data.id}`;
 }
 function deleteData(data){
   // Confirm with the user before proceeding with deletion
