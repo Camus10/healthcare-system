@@ -61,7 +61,6 @@ $(document).ready(function(){
           }));
         });
 
-
         // Retrieve the wardId value from the response
         let wardId = response.data.wardId;
 
