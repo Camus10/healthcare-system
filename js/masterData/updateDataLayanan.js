@@ -43,7 +43,7 @@ $(document).ready(function(){
         $('#pilihJenisLayanan').val(response.data.type);
 
         // Retrieve the type value from the response
-        var type = response.data.type;
+        let type = response.data.type;
         if(type === 'out-patient'){
           $('#pilihJenisLayanan').val('Rawat Jalan');
         }else if (type === 'in-patient'){

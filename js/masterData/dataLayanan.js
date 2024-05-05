@@ -41,7 +41,7 @@ function refreshTable(){
     success: function(response){
       // Extract clinicId from the response
       // response.data.clinic
-      var clinicId = "ec5c1779-5194-471f-a902-2f451498b7ec"; // bypass
+      let clinicId = "ec5c1779-5194-471f-a902-2f451498b7ec"; // bypass
       
       // Make a new AJAX request using the extracted clinicId
       $.ajax({
@@ -59,7 +59,7 @@ function refreshTable(){
         },
         success: function(response){
           // Extract items from the response
-          var items = response.data.items;
+          let items = response.data.items;
 
           // Initialise DataTable with items
           $('#table1').DataTable({
