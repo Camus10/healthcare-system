@@ -40,7 +40,6 @@ $(document).ready(function(){
         $('#clinicId').val(response.data.clinicId);
         $('#kodeLayanan').val(response.data.code);
         $('#namaLayanan').val(response.data.name);
-        $('#pilihJenisLayanan').val(response.data.type);
 
         // Retrieve the type value from the response
         let type = response.data.type;
