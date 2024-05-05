@@ -88,7 +88,7 @@ $(document).ready(function(){
     };
 
     // Validate form data
-    if(formData.code == '' || formData.name == ''){
+    if(formData.code === '' || formData.name === '' || formData.type === undefined){
       Toast.fire({
         icon: 'warning',
         title: 'Isi Nama Layanan dan Jenis Layanan.'
