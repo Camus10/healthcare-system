@@ -17,7 +17,7 @@ $(document).ready(function(){
       // Greeting message
       $('#greetingHeader').text('Hello, ' + response.data.username + '!');
     },
-    error: function(xhr, status, error) {
+    error: function(xhr, status, error){
       console.error('Error fetching user data:', error);
     }
   });
@@ -108,15 +108,15 @@ function refreshTable(){
 }
 
 function editData(data){
-  // Navigate to updateDataTipeJaminan.html with insuranceId as a query parameter
-  window.location.href = `updateDataTipeJaminan.html?insuranceId=${data.id}`;
+  // Navigate to updateDataTipeJaminan.html with insuranceTypeId as a query parameter
+  window.location.href = `updateDataTipeJaminan.html?insuranceTypeId=${data.id}`;
 }
 function deleteData(data){
   // Confirm with the user before proceeding with deletion
   Swal.fire({
     icon: 'warning',
     title: 'Konfirmasi penghapusan',
-    text: 'Data jaminan ini akan dihapus dan tidak bisa dikembalikan',
+    text: 'Data tipe jaminan ini akan dihapus dan tidak bisa dikembalikan',
     showCancelButton: true,
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
@@ -139,7 +139,7 @@ function deleteData(data){
           Swal.fire({
             icon: 'success',
             title: 'Penghapusan Berhasil',
-            text: 'Data jaminan berhasil dihapus'
+            text: 'Data tipe jaminan berhasil dihapus'
           });
 
           refreshTable();
@@ -151,7 +151,7 @@ function deleteData(data){
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Gagal menghapus data jaminan'
+            text: 'Gagal menghapus data tipe jaminan'
           });
         }
       });

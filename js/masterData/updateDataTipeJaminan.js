@@ -17,20 +17,20 @@ $(document).ready(function(){
       // Greeting message
       $('#greetingHeader').text('Hello, ' + response.data.username + '!');
     },
-    error: function(xhr, status, error) {
+    error: function(xhr, status, error){
       console.error('Error fetching user data:', error);
     }
   });
 
-  // Retrieve insuranceId from URL query parameters
+  // Retrieve insuranceTypeId from URL query parameters
   const urlParams = new URLSearchParams(window.location.search);
-  const insuranceId = urlParams.get('insuranceId');
+  const insuranceTypeId = urlParams.get('insuranceTypeId');
 
   // Function to fetch data tipe jaminan details for editing
-  function fetchDataTipeJaminanDetails(insuranceId){
+  function fetchDataTipeJaminanDetails(insuranceTypeId){
     // Make AJAX request to fetch data tipe jaminan details
     $.ajax({
-      url: `${API_BASE_URL}/insurance-types/${insuranceId}`,
+      url: `${API_BASE_URL}/insurance-types/${insuranceTypeId}`,
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + accessToken
@@ -51,7 +51,7 @@ $(document).ready(function(){
           $('#pilihJenisJaminan').val('other');
         }
 
-        $('#insuranceId').val(insuranceId);
+        $('#insuranceTypeId').val(insuranceTypeId);
       },
       error: function(xhr, status, error){
         console.error('Error fetching data TipeJaminan details:', error);
@@ -60,9 +60,9 @@ $(document).ready(function(){
     });
   }
 
-  // If insuranceId is provided, fetch data tipe jaminan details for editing
-  if(insuranceId){
-    fetchDataTipeJaminanDetails(insuranceId);
+  // If insuranceTypeId is provided, fetch data tipe jaminan details for editing
+  if(insuranceTypeId){
+    fetchDataTipeJaminanDetails(insuranceTypeId);
   }
 
   // Function to handle form submission
@@ -71,7 +71,7 @@ $(document).ready(function(){
 
     // Get form data
     let formData = {
-      id: $('#insuranceId').val(),
+      id: $('#insuranceTypeId').val(),
       code: $('#kodeTipeJaminan').val(),
       name: $('#namaTipeJaminan').val(),
       category: $('#pilihJenisJaminan').find('option:selected').attr('value')
@@ -87,10 +87,10 @@ $(document).ready(function(){
     }
 
     // Determine the appropriate API endpoint based on whether it's for adding or editing
-    let apiUrl = insuranceId ? `${API_BASE_URL}/insurance-types/${insuranceId}` : `${API_BASE_URL}/insurance-types`;
+    let apiUrl = insuranceTypeId ? `${API_BASE_URL}/insurance-types/${insuranceTypeId}` : `${API_BASE_URL}/insurance-types`;
 
     // Determine the HTTP method for the request
-    let httpMethod = insuranceId ? 'PUT' : 'POST';
+    let httpMethod = insuranceTypeId ? 'PUT' : 'POST';
 
     // Make AJAX request
     $.ajax({
@@ -103,7 +103,7 @@ $(document).ready(function(){
       data: JSON.stringify(formData),
       success: function(response){
         // Show success message
-        let message = insuranceId ? 'Data tipe jaminan berhasil diperbarui' : 'Data tipe jaminan berhasil ditambahkan';
+        let message = insuranceTypeId ? 'Data tipe jaminan berhasil diperbarui' : 'Data tipe jaminan berhasil ditambahkan';
         Swal.fire({
           title: message,
           html:
@@ -137,7 +137,7 @@ $(document).ready(function(){
               $('#pilihJenisJaminan').val('');
           }
       
-          $('#insuranceId').val(insuranceId);
+          $('#insuranceTypeId').val(insuranceTypeId);
         }
       },      
       error: function(xhr, status, error){

@@ -36,9 +36,9 @@ async function refreshTable(){
     // Fetch clinic ID
     const clinicId = "ec5c1779-5194-471f-a902-2f451498b7ec"; // bypass
 
-    // Fetch beds data
-    const bedsResponse = await $.ajax({
-      url: `${API_BASE_URL}/beds`,
+    // Fetch insurances data
+    const insurancesResponse = await $.ajax({
+      url: `${API_BASE_URL}/insurances`,
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + accessToken
@@ -46,19 +46,18 @@ async function refreshTable(){
       data: {
         isDeleted: false,
         page: 1,
-        orderBy: 'bed.updatedAt',
-        order: 'DESC',
-        clinicIds: [clinicId]
+        orderBy: 'insurance.updatedAt',
+        order: 'DESC'
       }
     });
 
-    // Extract items from the beds response
-    const items = bedsResponse.data.items;
+    // Extract items from the insurances response
+    const items = insurancesResponse.data.items;
 
-    // Fetch wards data for all items in parallel
-    const wardsPromises = items.map(item =>
+    // Fetch insurance types data for all items in parallel
+    const insuranceTypePromises = items.map(item =>
       $.ajax({
-        url: `${API_BASE_URL}/wards/${item.wardId}`,
+        url: `${API_BASE_URL}/insurance-types/${item.insuranceTypeId}`,
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + accessToken
@@ -69,13 +68,13 @@ async function refreshTable(){
       })
     );
 
-    // Wait for all wards data to be fetched
-    const wardsResponses = await Promise.all(wardsPromises);
+    // Wait for all insurance types data to be fetched
+    const insuranceTypeResponses = await Promise.all(insuranceTypePromises);
 
-    // Map the fetched wards data to the corresponding item
+    // Map the fetched insurance types data to the corresponding item
     items.forEach((item, index) => {
-      // Check if wardsResponses[index].data is not null before accessing its 'name' property
-      item.wardsName = wardsResponses[index].data !== null ? wardsResponses[index].data.name : null;
+      // Check if insuranceTypeResponses[index].data is not null before accessing its 'name' property
+      item.insuranceTypesName = insuranceTypeResponses[index].data !== null ? insuranceTypeResponses[index].data.name : null;
     });
 
     // Initialise DataTable with items
@@ -85,23 +84,9 @@ async function refreshTable(){
         { data: 'code' },
         { data: 'name' },
         {
-          data: 'wardsName',
+          data: 'insuranceTypesName',
           render: function(data){
             return data !== null && data !== undefined ? data : '';
-          }
-        },      
-        {
-          data: 'isActive',
-          className: 'text-center',
-          render: function(data){
-            return data ? '✓' : '';
-          }
-        },
-        {
-          data: 'isSubstitute',
-          className: 'text-center',
-          render: function(data){
-            return data ? '✓' : '';
           }
         },
         {
@@ -123,15 +108,15 @@ async function refreshTable(){
 }
 
 function editData(data){
-  // Navigate to updateDataBed.html with bedId as a query parameter
-  window.location.href = `updateDataBed.html?bedId=${data.id}`;
+  // Navigate to updateDataJaminan.html with insuranceId as a query parameter
+  window.location.href = `updateDataJaminan.html?insuranceId=${data.id}`;
 }
 function deleteData(data){
   // Confirm with the user before proceeding with deletion
   Swal.fire({
     icon: 'warning',
     title: 'Konfirmasi penghapusan',
-    text: 'Data bed ini akan dihapus dan tidak bisa dikembalikan',
+    text: 'Data jaminan ini akan dihapus dan tidak bisa dikembalikan',
     showCancelButton: true,
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
@@ -143,7 +128,7 @@ function deleteData(data){
       let accessToken = sessionStorage.getItem('accessToken');
       // Log the URL and request body before making the AJAX request
       $.ajax({
-        url: `${API_BASE_URL}/beds/${data.id}`,
+        url: `${API_BASE_URL}/insurances/${data.id}`,
         method: 'DELETE',
         headers: {
           'Authorization': 'Bearer ' + accessToken
@@ -154,7 +139,7 @@ function deleteData(data){
           Swal.fire({
             icon: 'success',
             title: 'Penghapusan Berhasil',
-            text: 'Data bed berhasil dihapus'
+            text: 'Data jaminan berhasil dihapus'
           });
 
           refreshTable();
@@ -166,7 +151,7 @@ function deleteData(data){
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Gagal menghapus data Bed'
+            text: 'Gagal menghapus data jaminan'
           });
         }
       });

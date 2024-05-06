@@ -21,16 +21,16 @@ $(document).ready(function(){
       console.error('Error fetching user data:', error);
     }
   });
-  
-  // Retrieve bedId from URL query parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const bedId = urlParams.get('bedId');
 
-  // Function to fetch data bed details for editing
-  function fetchDataBedDetails(bedId){
-    // Make AJAX request to fetch data bed details
+  // Retrieve insuranceId from URL query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const insuranceId = urlParams.get('insuranceId');
+
+  // Function to fetch data insurance details for editing
+  function fetchDataInsuranceDetails(insuranceId){
+    // Make AJAX request to fetch data insurance details
     $.ajax({
-      url: `${API_BASE_URL}/beds/${bedId}`,
+      url: `${API_BASE_URL}/insurances/${insuranceId}`,
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + accessToken   
@@ -39,24 +39,23 @@ $(document).ready(function(){
         isDeleted: false
       },
       success: function(response){
-        // Populate form fields with existing data bed details
-        $('#kodeBed').val(response.data.code);
-        $('#namaBed').val(response.data.name);
+        // Populate form fields with existing data insurance details
+        $('#kodeJaminan').val(response.data.code);
+        $('#namaJaminan').val(response.data.name);
 
-        // Retrieve the wardId value from the response
-        let wardId = response.data.wardId;
+        // Retrieve the insuranceTypeId value from the response
+        let insuranceTypeId = response.data.insuranceTypeId;
 
-        // Make AJAX request to fetch data from `${API_BASE_URL}/wards`
+        // Make AJAX request to fetch data from `${API_BASE_URL}/insurance-types`
         $.ajax({
-          url: `${API_BASE_URL}/wards`,
+          url: `${API_BASE_URL}/insurance-types`,
           method: 'GET',
           headers: {
             'Authorization': 'Bearer ' + accessToken
           },
           data: {
-            isActive: true,
             isDeleted: false,
-            orderBy: 'ward.updatedAt',
+            orderBy: 'insurance_type.updatedAt',
             order: 'DESC'
           },
           success: function(response){
@@ -64,7 +63,7 @@ $(document).ready(function(){
             let items = response.data.items;
 
             // Get the select element
-            let $selectElement = $('#pilihNamaKamar');
+            let $selectElement = $('#pilihTipeJaminan');
           
             // Clear existing options
             $selectElement.empty();
@@ -78,9 +77,9 @@ $(document).ready(function(){
               }));
             });
           
-            // Once options are appended, if wardId is available, set the selected value
-            if(wardId){
-              $selectElement.val(wardId);
+            // Once options are appended, if insuranceTypeId is available, set the selected value
+            if(insuranceTypeId){
+              $selectElement.val(insuranceTypeId);
             }
           },
           error: function(xhr, status, error){
@@ -88,9 +87,8 @@ $(document).ready(function(){
           }
         });
 
-        $('#available').prop('checked', response.data.isActive);
-        $('#substitute').prop('checked', response.data.isActive);
-        $('#bedId').val(response.data.id);
+        $('#tampilHargaKwitansi').prop('checked', response.data.isIncludedInReceipt);
+        $('#insuranceId').val(response.data.id);
       },
       error: function(xhr, status, error){
         console.error('Error fetching data layanan details:', error);
@@ -99,13 +97,13 @@ $(document).ready(function(){
     });
   }
   
-  // If bedId is provided, fetch data bed details for editing
-  if(bedId){
-    fetchDataBedDetails(bedId);
+  // If insuranceId is provided, fetch data insurance details for editing
+  if(insuranceId){
+    fetchDataInsuranceDetails(insuranceId);
   }else{
-    // Make AJAX request to fetch data from `${API_BASE_URL}/wards`
+    // Make AJAX request to fetch data from `${API_BASE_URL}/insurance-types`
     $.ajax({
-      url: `${API_BASE_URL}/wards`,
+      url: `${API_BASE_URL}/insurance-types`,
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + accessToken
@@ -113,7 +111,7 @@ $(document).ready(function(){
       data: {
         isActive: true,
         isDeleted: false,
-        orderBy: 'ward.updatedAt',
+        orderBy: 'insurance_type.updatedAt',
         order: 'DESC'
       },
       success: function(response){
@@ -121,7 +119,7 @@ $(document).ready(function(){
         let items = response.data.items;
       
         // Get the select element
-        let $selectElement = $('#pilihNamaKamar');
+        let $selectElement = $('#pilihTipeJaminan');
       
         // Clear existing options
         $selectElement.empty();
@@ -129,7 +127,7 @@ $(document).ready(function(){
         // Add a placeholder option
         $selectElement.append($('<option>', {
           value: undefined,
-          text: 'Pilih Nama Kamar',
+          text: 'Pilih Nama Tipe Jaminan',
           selected: true,
           disabled: true,
           hidden: true
@@ -156,16 +154,15 @@ $(document).ready(function(){
 
     // Get form data
     let formData = {
-      id: $('#bedId').val(),  // For PUT method
-      code: $('#kodeBed').val(),
-      name: $('#namaBed').val(),
-      isActive: $('#available').is(':checked'),
-      isSubstitute: $('#substitute').is(':checked'),
-      wardId: $('#pilihNamaKamar').find('option:selected').attr('value')
+      id: $('#insuranceId').val(),  // For PUT method
+      code: $('#kodeJaminan').val(),
+      name: $('#namaJaminan').val(),
+      isIncludedInReceipt: $('#tampilHargaKwitansi').is(':checked'),
+      insuranceTypeId: $('#pilihTipeJaminan').find('option:selected').attr('value')
     };
 
     // Validate form data
-    if(formData.code === '' || formData.name === '' || formData.dailyCharge === '' || formData.wardId === undefined){
+    if(formData.code === '' || formData.name === '' || formData.insuranceTypeId === undefined){
       Toast.fire({
         icon: 'warning',
         title: 'Isi semua data terlebih dahulu.'
@@ -174,10 +171,10 @@ $(document).ready(function(){
     }
 
     // Determine the appropriate API endpoint based on whether it's for adding or editing
-    let apiUrl = bedId ? `${API_BASE_URL}/beds/${bedId}` : `${API_BASE_URL}/beds`;
+    let apiUrl = insuranceId ? `${API_BASE_URL}/insurances/${insuranceId}` : `${API_BASE_URL}/insurances`;
 
     // Determine the HTTP method for the request
-    let httpMethod = bedId ? 'PUT' : 'POST';
+    let httpMethod = insuranceId ? 'PUT' : 'POST';
 
     // Make AJAX request
     $.ajax({
@@ -190,29 +187,27 @@ $(document).ready(function(){
       data: JSON.stringify(formData),
       success: function(response){
         // Show success message
-        let message = bedId ? 'Data bed berhasil diperbarui' : 'Data bed berhasil ditambahkan';
+        let message = insuranceId ? 'Data Jaminan berhasil diperbarui' : 'Data Jaminan berhasil ditambahkan';
         Swal.fire({
           title: message,
           html:
-            'Kode Bed : ' + formData.code + '<br>' +
-            'Nama Bed : ' + formData.name + '<br>' +
-            'Nama Kamar : ' + $('#pilihNamaKamar option:selected').text()
+            'Kode Jaminan : ' + formData.code + '<br>' +
+            'Nama Jaminan : ' + formData.name + '<br>' +
+            'Tipe Jaminan : ' + $('#pilihTipeJaminan option:selected').text()
         });
       
         if(httpMethod === 'POST'){
           // Clear form fields after successful submission
-          $('#kodeBed').val('');
-          $('#namaBed').val('');
-          $('#pilihNamaKamar').val('').find('option:eq(0)').prop('selected', true);
-          $('#available').prop('checked', false);
-          $('#substitute').prop('checked', false);
+          $('#kodeJaminan').val('');
+          $('#namaJaminan').val('');
+          $('#pilihTipeJaminan').val('').find('option:eq(0)').prop('selected', true);
+          $('#tampilHargaKwitansi').prop('checked', false);
         }else if(httpMethod === 'PUT'){
           // Populate form fields with existing data Bed details
-          $('#bedId').val(bedId);
-          $('#kodeBed').val(formData.code);
-          $('#namaBed').val(formData.name);
-          $('#available').prop('checked', formData.isAvailable);
-          $('#substitute').prop('checked', formData.isSubstitute);
+          $('#insuranceId').val(insuranceId);
+          $('#kodeJaminan').val(formData.code);
+          $('#namaJaminan').val(formData.name);
+          $('#tampilHargaKwitansi').prop('checked', formData.isIncludedInReceipt);
         }
       },      
       error: function(xhr, status, error){

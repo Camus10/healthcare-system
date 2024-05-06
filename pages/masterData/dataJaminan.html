@@ -8,6 +8,8 @@
     <link rel="shortcut icon" href="../../assets/images/IconRosellaCare.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../../assets/compiled/css/app.css"/>
     <link rel="stylesheet" href="../../assets/compiled/css/app-dark.css"/>
+    <link rel="stylesheet" href="../../assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" href="../../assets/compiled/css/table-datatable-jquery.css"/>
     <link rel="stylesheet" href="../../assets/extensions/sweetalert2/sweetalert2.min.css"/>
   </head>
 
@@ -69,10 +71,10 @@
                   <li class="submenu-item">
                     <a href="../masterData/dataBed.html" class="submenu-link">Data Bed</a>
                   </li>
-                  <li class="submenu-item active">
+                  <li class="submenu-item">
                     <a href="../masterData/dataTipeJaminan.html" class="submenu-link">Data Tipe Jaminan</a>
                   </li>
-                  <li class="submenu-item">
+                  <li class="submenu-item active">
                     <a href="../masterData/dataJaminan.html" class="submenu-link">Data Jaminan</a>
                   </li>
                   <li class="submenu-item">
@@ -94,7 +96,7 @@
           <nav class="navbar navbar-expand navbar-light navbar-top">
             <div class="container-fluid">
               <!-- Button hide and show sidebar menu -->
-              <a href="#" class="burger-btn d-block">
+              <a href="#" class="burger-btn d-block" onclick="refreshTable()">
                 <i class="bi bi-justify fs-3"></i>
               </a>
 
@@ -116,7 +118,7 @@
                       <div class="user-img d-flex align-items-center">
                         <div class="avatar avatar-md">
                           <!-- <img id="userAvatar" src="" alt="User Avatar"/> -->
-                          <img src="../../assets/compiled/jpg/2.jpg"/>
+                          <img src="../../assets/compiled/jpg/2.jpg" />
                         </div>
                       </div>
                     </div>
@@ -132,9 +134,7 @@
                       <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#" id="logoutButton">
-                        <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout
-                      </a>
+                      <a class="dropdown-item" href="#"><i class="icon-mid bi bi-box-arrow-left me-2"></i>Logout</a>
                     </li>
                   </ul>
                 </div>
@@ -159,43 +159,33 @@
                       <li class="breadcrumb-item active" aria-current="page">
                         Data Tipe Jaminan
                       </li>
-                      <li class="breadcrumb-item active" aria-current="page">
-                        Update Data Tipe Jaminan
-                      </li>
                     </ol>
                   </nav>
                 </div>
               </div>
             </div>
             <section class="section">
-              <div class="card">  
+              <div class="card">
+                <div class="card-header">
+                  <div class="buttons">
+                    <a href="./updateDataJaminan.html" class="btn btn-primary rounded-pill">Tambah Data</a>
+                  </div>
+                </div>
                 <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <input type="hidden" id="clinicId" name="clinicId">
-                      <input type="hidden" id="insuranceTypeId" name="insuranceTypeId">
-                      <div class="form-group">
-                        <label for="kodeTipeJaminan">Kode Tipe Jaminan</label>
-                        <input type="text" id="kodeTipeJaminan" name="kodeTipeJaminan" class="form-control" placeholder="Kode Tipe Jaminan">
-                      </div>
-                      <div class="form-group">
-                        <label for="namaTipeJaminan">Nama Tipe Jaminan</label>
-                        <input type="text" id="namaTipeJaminan" name="namaTipeJaminan" class="form-control" placeholder="Nama Tipe Jaminan">
-                      </div>
-                      <fieldset class="form-group">
-                        <label for="jenisJaminan">Jenis Jaminan</label>
-                        <select class="form-select" id="pilihJenisJaminan" name="pilihJenisJaminan">
-                          <option value="" disabled selected hidden>Pilih Jenis Jaminan</option>
-                          <option value="personal">Mandiri</option>
-                          <option value="bpjs">BPJS</option>
-                          <option value="other">Lainnya</option>
-                        </select>
-                      </fieldset>
-                    </div>
-                    <div class="buttons">
-                      <button type="submit" id="submitForm" name="submitForm" class="btn icon icon-left btn-primary">Simpan</button>
-                      <a href="./dataTipeJaminan.html" class="btn icon icon-left btn-secondary">Kembali</a>
-                    </div>
+                  <div class="table-responsive">
+                    <table id="table1" class="table">
+                      <thead>
+                        <tr>
+                          <th class="text-center" style="width: 25%;">Kode Jaminan</th>
+                          <th class="text-center" style="width: 25%;">Nama Jaminan</th>
+                          <th class="text-center" style="width: 25%;">Tipe Jaminan</th>
+                          <th class="text-center" style="width: 25%;">Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Data will be inserted here -->
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -206,8 +196,9 @@
     </div>
     
     <script src="../../assets/extensions/jquery/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
     <script src="../../config.js"></script>
-    <script src="../../js/masterData/updateDataTipeJaminan.js"></script>
+    <script src="../../js/masterData/dataJaminan.js"></script>
     <script src="../../assets/static/js/components/dark.js"></script>
     <script src="../../assets/compiled/js/app.js"></script>
   </body>
